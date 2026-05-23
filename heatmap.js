@@ -1,5 +1,7 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { ref, onValue } from "firebase/database";
+import { database } from "./firebase.js";
 
 const map = L.map("heatmap").setView([-2.134, -79.594], 13);
 
@@ -8,36 +10,8 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: "&copy; OpenStreetMap contributors"
 }).addTo(map);
 
-const reportesGuardados = JSON.parse(localStorage.getItem("reportesInundacion")) || [];
+let reportes = [];
 
-const reportesEjemplo = [
-  {
-    sector: "100 Camas",
-    direccion: "Av. Miguel Campodónico y Manuel Ascasubi",
-    fechaIncidente: "2025-04-11",
-    nivel: "Bajo",
-    descripcion: "Hospital General IESS Milagro presenta inundaciones en sus alrededores.",
-    fotoNombre: "PHOTO-2026-05-22-22-25-18.jpg",
-    fotoBase64: "",
-    lat: -2.1334,
-    lng: -79.579171,
-    fechaRegistro: "5/22/2026, 10:31:37 PM"
-  },
-  {
-    sector: "100 Camas",
-    direccion: "Av. Miguel Campodónico y Manuel Ascasubi",
-    fechaIncidente: "2025-04-11",
-    nivel: "Bajo",
-    descripcion: "Hospital General IESS Milagro presenta inundaciones.",
-    fotoNombre: "PHOTO-2026-05-22-22-25-18.jpg",
-    fotoBase64: "",
-    lat: -2.1334,
-    lng: -79.579171,
-    fechaRegistro: "5/22/2026, 10:35:00 PM"
-  }
-];
-
-const reportes = [...reportesEjemplo, ...reportesGuardados];
 const capaReportes = L.layerGroup().addTo(map);
 const detalleReporte = document.getElementById("detalleReporte");
 
@@ -119,6 +93,8 @@ function generarGraficoHistorico() {
   const datosPorFecha = {};
 
   reportes.forEach((r) => {
+    if (!r.fechaIncidente || !nivelesValor[r.nivel]) return;
+
     if (!datosPorFecha[r.fechaIncidente]) {
       datosPorFecha[r.fechaIncidente] = [];
     }
@@ -218,8 +194,6 @@ document.getElementById("buscarFecha").addEventListener("click", () => {
     return r.fechaIncidente >= fechaDesde && r.fechaIncidente <= fechaHasta;
   });
 
-  capaReportes.clearLayers();
-
   detalleReporte.innerHTML = `
     <p>No se ha seleccionado ningún reporte.</p>
   `;
@@ -265,9 +239,14 @@ document.getElementById("descargarCSV").addEventListener("click", () => {
   link.click();
 });
 
-generarGraficoHistorico();
+onValue(ref(database, "reportesInundacion"), (snapshot) => {
+  const data = snapshot.val();
+  reportes = data ? Object.values(data) : [];
 
-document.getElementById("graficoHistorico").insertAdjacentHTML(
-  "afterend",
-  `<p class="mensaje-filtro">Seleccione una fecha para visualizar los reportes en el mapa.</p>`
-);
+  generarGraficoHistorico();
+  capaReportes.clearLayers();
+
+  detalleReporte.innerHTML = `
+    <p>Seleccione un rango de fechas y presione Buscar.</p>
+  `;
+});
