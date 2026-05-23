@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monitoreo participativo Geo-Web</title>
+
+  <script type="module" crossorigin src="/geoportal-inundaciones-milagro/assets/main-C3dSPB9e.js"></script>
+  <link rel="modulepreload" crossorigin href="/geoportal-inundaciones-milagro/assets/leaflet-C0-P0NUz.js">
+  <link rel="stylesheet" crossorigin href="/geoportal-inundaciones-milagro/assets/leaflet-BIaBvHME.css">
+</head>
+
+<body>
+  <header class="hero">
+    <h1>GeoPortal Participativo de Inundaciones - Cantón Milagro</h1>
+    <p>Herramienta Geo-Web para registrar, visualizar y descargar reportes ciudadanos de inundaciones.</p>
+    <div class="acciones-principales">
+  <a href="heatmap.html" class="btn-heatmap">
+    Ver mapa de calor de inundaciones
+  </a>
+</div>
+  </header>
+
+  <main class="layout">
+    <section class="panel-formulario">
+  <h2>Reportar una inundación</h2>
+  <p>
+    Complete este formulario para registrar un punto de inundación observado en el cantón Milagro.
+    La información ingresada se visualizará en el mapa y podrá descargarse para análisis posterior.
+  </p>
+
+  <form id="floodForm">
+    <label>
+      Nombre del sector o barrio:
+      <input type="text" id="sector" placeholder="Ejemplo: Las Piñas, Los Vergeles, Centro" required>
+    </label>
+
+    <label>
+  Dirección o referencia del lugar:
+  <input 
+    type="text" 
+    id="direccion" 
+    placeholder="Ejemplo: Av. Amazonas y García Moreno, frente a la escuela..." 
+    required
+  >
+</label>
+
+<label>
+  Fecha en que ocurrió o fue evidenciada la inundación:
+  <input type="date" id="fechaIncidente" required>
+</label>
+
+<label>
+  Fotografía de evidencia:
+  <input 
+    type="file" 
+    id="foto" 
+    accept="image/*"
+  >
+</label>
+
+    <label>
+      Nivel aproximado del agua:
+      <select id="nivel" required>
+        <option value="">Seleccione una opción</option>
+        <option value="Bajo">Bajo: hasta los tobillos</option>
+        <option value="Medio">Medio: hasta las rodillas</option>
+        <option value="Alto">Alto: sobre las rodillas</option>
+        <option value="Crítico">Crítico: ingreso a viviendas</option>
+      </select>
+    </label>
+
+    <label>
+      Descripción del evento:
+      <textarea id="descripcion" placeholder="Describa brevemente lo observado..." required></textarea>
+    </label>
+
+    <div class="ayuda-mapa">
+  <strong>Ubicación del reporte:</strong>
+  <p>Haga clic sobre el mapa en el lugar donde observó la inundación. Las coordenadas se llenarán automáticamente.</p>
+</div>
+
+<label>
+  Latitud:
+  <input type="number" step="any" id="lat" readonly required>
+</label>
+
+<label>
+  Longitud:
+  <input type="number" step="any" id="lng" readonly required>
+</label>
+
+    <button type="submit">Guardar reporte</button>
+  </form>
+</section>
+    <section id="scrolly">
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 · Sharon Moya Zúñiga</p>
+  </footer>
+
+</body>
+</html>
