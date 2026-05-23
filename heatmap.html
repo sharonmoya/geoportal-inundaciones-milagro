@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mapa de calor de inundaciones</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="hero">
+    <h1>Mapa de calor de inundaciones - Cantón Milagro</h1>
+    <p>Visualización de reportes ciudadanos según nivel de afectación.</p>
+  </header>
+
+  <main class="layout">
+    <a class="volver" href="index.html">← Volver al formulario</a>
+
+    <section class="panel-resultados">
+      <h2>Resultados históricos de reportes</h2>
+
+<div class="filtro-rango">
+  <label>
+    Fecha desde:
+    <input type="date" id="fechaDesde">
+  </label>
+
+  <label>
+    Fecha hasta:
+    <input type="date" id="fechaHasta">
+  </label>
+</div>
+
+<div class="acciones-filtro">
+  <button id="buscarFecha">Buscar</button>
+  <button id="limpiarFiltro">Limpiar mapa</button>
+</div>
+
+      <div id="graficoHistorico"></div>
+    </section>
+
+    <div class="acciones-reportes">
+      <button id="descargarCSV">Descargar reportes CSV</button>
+    </div>
+
+    <section class="visor-resultados">
+      <div>
+        <div class="leyenda">
+          <h3>Leyenda</h3>
+          <p><span class="color bajo"></span> Bajo</p>
+          <p><span class="color medio"></span> Medio</p>
+          <p><span class="color alto"></span> Alto</p>
+          <p><span class="color critico"></span> Crítico</p>
+        </div>
+
+        <div id="heatmap"></div>
+      </div>
+
+      <aside class="panel-foto">
+        <h3>Vista preliminar del reporte</h3>
+        <p>Haga clic sobre un punto del mapa para visualizar la evidencia registrada.</p>
+        <div id="detalleReporte">
+          <p>No se ha seleccionado ningún reporte.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script type="module" src="heatmap.js"></script>
+</body>
+</html>
