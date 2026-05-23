@@ -8,7 +8,36 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: "&copy; OpenStreetMap contributors"
 }).addTo(map);
 
-const reportes = JSON.parse(localStorage.getItem("reportesInundacion")) || [];
+const reportesGuardados = JSON.parse(localStorage.getItem("reportesInundacion")) || [];
+
+const reportesEjemplo = [
+  {
+    sector: "100 Camas",
+    direccion: "Av. Miguel Campodónico y Manuel Ascasubi",
+    fechaIncidente: "2025-04-11",
+    nivel: "Bajo",
+    descripcion: "Hospital General IESS Milagro presenta inundaciones en sus alrededores.",
+    fotoNombre: "PHOTO-2026-05-22-22-25-18.jpg",
+    fotoBase64: "",
+    lat: -2.1334,
+    lng: -79.579171,
+    fechaRegistro: "5/22/2026, 10:31:37 PM"
+  },
+  {
+    sector: "100 Camas",
+    direccion: "Av. Miguel Campodónico y Manuel Ascasubi",
+    fechaIncidente: "2025-04-11",
+    nivel: "Bajo",
+    descripcion: "Hospital General IESS Milagro presenta inundaciones.",
+    fotoNombre: "PHOTO-2026-05-22-22-25-18.jpg",
+    fotoBase64: "",
+    lat: -2.1334,
+    lng: -79.579171,
+    fechaRegistro: "5/22/2026, 10:35:00 PM"
+  }
+];
+
+const reportes = [...reportesEjemplo, ...reportesGuardados];
 const capaReportes = L.layerGroup().addTo(map);
 const detalleReporte = document.getElementById("detalleReporte");
 
